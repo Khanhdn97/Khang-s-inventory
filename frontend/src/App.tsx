@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { FormEvent, ReactNode } from 'react'
 import './style.css'
 import "./theme.css";
-import ThemeToggle from "./ThemeToggle";
+import ThemeToggle from "./ThemeToggle.tsx";
 const API = (import.meta as any).env.VITE_API_URL || 'http://localhost:8000'
 
 type Warehouse = {
