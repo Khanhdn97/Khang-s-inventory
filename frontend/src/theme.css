@@ -1,0 +1,265 @@
+/* Light theme */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-app: #f8fafc;
+  --bg-sidebar: #ffffff;
+  --bg-card: #ffffff;
+  --bg-input: #ffffff;
+  --bg-hover: #f1f5f9;
+
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+
+  --border: #e2e8f0;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --warning: #d97706;
+
+  --shadow: 0 2px 8px rgb(15 23 42 / 5%);
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-app: #111827;
+  --bg-sidebar: #0f172a;
+  --bg-card: #1f2937;
+  --bg-input: #273449;
+  --bg-hover: #374151;
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #9ca3af;
+
+  --primary: #60a5fa;
+  --primary-hover: #93c5fd;
+
+  --border: #374151;
+  --success: #4ade80;
+  --danger: #f87171;
+  --warning: #fbbf24;
+
+  --shadow: 0 2px 8px rgb(0 0 0 / 15%);
+}
+
+/* Áp dụng màu toàn ứng dụng */
+body {
+  margin: 0;
+  background: var(--bg-app);
+  color: var(--text-primary);
+  font-family: Arial, sans-serif;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.app {
+  min-height: 100vh;
+  background: var(--bg-app);
+  color: var(--text-primary);
+}
+
+.sidebar {
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  border-radius: 12px;
+}
+
+input,
+select,
+textarea {
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+button {
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+table {
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+th {
+  background: var(--bg-hover);
+}
+
+td,
+th {
+  border-bottom: 1px solid var(--border);
+}
+
+.muted {
+  color: var(--text-secondary);
+}
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-hover);
+}
+
+/* Bảng dữ liệu — dùng màu theo theme */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+thead,
+thead tr {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+th {
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+  border-color: var(--border);
+}
+
+td {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border);
+}
+
+tbody tr:hover td {
+  background: var(--bg-hover);
+}
+
+/* Khung chứa bảng */
+.table-container,
+.table-wrapper {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+/* Nhãn mã hàng */
+.sku-badge {
+  color: var(--text-primary);
+  border-color: var(--border);
+  background: var(--bg-card);
+}
+
+/* Dropdown lọc thao tác */
+select {
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+/* Chữ phụ và mô tả */
+.muted,
+.table-description {
+  color: var(--text-secondary);
+}
+/* Khung nội dung trang lịch sử */
+.history-page,
+.history-content,
+.history-card {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+/* Nếu khung trắng là card chứa tiêu đề, mô tả và bảng */
+.history-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+/* Tiêu đề và mô tả */
+.history-card h2,
+.history-card h3,
+.history-card p {
+  color: var(--text-primary);
+}
+
+/* Chữ mô tả phụ */
+.history-card .description {
+  color: var(--text-secondary);
+}
+
+/* Tránh nền trắng được đặt trực tiếp trên bảng */
+.history-card table,
+.history-card thead,
+.history-card tbody,
+.history-card tr,
+.history-card td {
+  background-color: transparent;
+  color: var(--text-primary);
+}
+
+/* Nền riêng cho tiêu đề cột */
+.history-card th {
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+}
+
+/* Nền cho từng hàng */
+.history-card tbody tr {
+  background: var(--bg-card);
+}
+
+.history-card tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+.history-card tbody tr:hover td {
+  background: transparent;
+}
+/* Nút Quản lý kho */
+.btn-manage-warehouse {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--primary);
+  border-radius: 10px;
+  padding: 10px 18px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.btn-manage-warehouse:hover {
+  background: var(--bg-hover);
+  border-color: var(--bg-hover);
+}
+
+.warehouse-modal {
+    background: var(--bg-card);
+}
+
+.product-summary {
+  background: var(--bg-card);
+}
+
