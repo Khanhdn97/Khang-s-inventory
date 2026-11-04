@@ -185,8 +185,8 @@ export default function App() {
 
   // Popup sửa số lượng / chuyển kho.
   const [showEditProductModal, setShowEditProductModal] = useState(false)
-  const [editingProduct, setEditingProduct] = useState<ProductRow | null>(null)
-  const [editQuantity, setEditQuantity] = useState(0)
+  const [editingProduct, setEditingProduct] = useState<ProductRow | null>(null) 
+  const [editQuantity, setEditQuantity] = useState('0')
   const [editWarehouseId, setEditWarehouseId] = useState<number | ''>('')
 
 
@@ -1944,11 +1944,6 @@ async function saveEditProduct(event: FormEvent<HTMLFormElement>) {
               <div>
                 <span>Mã mặt hàng</span>
                 <strong>{editingProduct.sku}</strong>
-              </div>
-
-              <div>
-                <span>Tên mặt hàng</span>
-                <strong>{editingProduct.name || 'Mặt hàng'}</strong>
               </div>
 
               <div>
