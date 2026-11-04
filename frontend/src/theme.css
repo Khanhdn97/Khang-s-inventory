@@ -3,7 +3,7 @@
 [data-theme="light"] {
   color-scheme: light;
 
-  --bg-app: #f8fafc;
+  --bg-app: #e6e6e6;
   --bg-sidebar: #ffffff;
   --bg-card: #ffffff;
   --bg-input: #ffffff;
@@ -15,7 +15,7 @@
   --primary: #2563eb;
   --primary-hover: #1d4ed8;
 
-  --border: #e2e8f0;
+  --border: #636364;
   --success: #16a34a;
   --danger: #dc2626;
   --warning: #d97706;
@@ -27,7 +27,7 @@
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --bg-app: #111827;
+  --bg-app: #2a323f;
   --bg-sidebar: #0f172a;
   --bg-card: #1f2937;
   --bg-input: #273449;
@@ -39,12 +39,12 @@
   --primary: #60a5fa;
   --primary-hover: #93c5fd;
 
-  --border: #374151;
+  --border: #d0d1d3;
   --success: #4ade80;
   --danger: #f87171;
   --warning: #fbbf24;
 
-  --shadow: 0 2px 8px rgb(0 0 0 / 15%);
+  --shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
 }
 
 /* Áp dụng màu toàn ứng dụng */
@@ -263,3 +263,7 @@ select {
   background: var(--bg-card);
 }
 
+.warehouse-option{
+  border: 1px solid var(--primary);
+  box-shadow: var(--shadow);
+}

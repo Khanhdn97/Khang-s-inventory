@@ -62,15 +62,32 @@ function moneyFormat(value: unknown): string {
   return new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(numberValue(value))
 }
 
-function dateFormat(value: string | null | undefined): string {
-  if (!value) return "";
+function dateFormat(value: string | null | undefined) {
+  if (!value) return '';
 
-  const utcValue = value.endsWith("Z") ? value : `${value}Z`;
+  // Đảm bảo thời gian UTC được nhận diện đúng
+  const utcValue = /Z$|[+-]\d{2}:\d{2}$/.test(value)
+    ? value
+    : `${value}Z`;
 
-  return new Date(utcValue).toLocaleString(undefined, {
-    dateStyle: "short",
-    timeStyle: "short",
-  });
+  const date = new Date(utcValue);
+
+  if (isNaN(date.getTime())) return '';
+
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+  }).formatToParts(date);
+
+  const get = (type: string) =>
+    parts.find(part => part.type === type)?.value ?? '';
+
+  return `${get('day')}/${get('month')}/${get('year')} ${get('hour')}:${get('minute')}`;
 }
 
 async function request<T = any>(
@@ -900,9 +917,9 @@ async function saveEditProduct(event: FormEvent<HTMLFormElement>) {
           {(
             [
               ['Tổng quan', '◫'],
-              ['Kho', '▤'],
               ['Hàng hóa', '▦'],
               ['Cửa hàng', '🛒'],
+              ['Kho', '▤'],
               ['Lịch sử', '◷'],
             ] as [Tab, string][]
           ).map(([name, icon]) => (
@@ -1012,7 +1029,7 @@ async function saveEditProduct(event: FormEvent<HTMLFormElement>) {
               />
             </div>
 
-            <section className="panel">
+            <section className="panel card">
               <div className="panel-head">
                 <div>
                   <h2>Hàng hóa theo kho</h2>
@@ -1086,7 +1103,7 @@ async function saveEditProduct(event: FormEvent<HTMLFormElement>) {
         {/* KHO */}
         {tab === 'Kho' && (
           <section className="page-content warehouse-page">
-            <div className="warehouse-heading panel">
+            <div className="warehouse-heading panel card">
               <div>
                 <h2>Hàng trong kho</h2>
                 <p className="muted">
@@ -1104,7 +1121,7 @@ async function saveEditProduct(event: FormEvent<HTMLFormElement>) {
             </div>
 
             <div className="warehouse-layout">
-              <aside className="panel warehouse-list">
+              <aside className="panel warehouse-list card">
                 <div className="panel-head">
                   <div>
                     <h3>Danh sách kho</h3>
@@ -1181,7 +1198,7 @@ async function saveEditProduct(event: FormEvent<HTMLFormElement>) {
                 )}
               </aside>
 
-              <section className="panel warehouse-items">
+              <section className="panel warehouse-items card">
                 <div className="panel-head warehouse-items-head">
                   <div>
                     <span className="eyebrow">KHO ĐANG CHỌN</span>
@@ -1299,7 +1316,7 @@ async function saveEditProduct(event: FormEvent<HTMLFormElement>) {
               
             </div>
 
-            <section className="panel">
+            <section className="panel card">
               <div className="panel-head">
                 <div>
                   <h2>Hàng hóa</h2>
@@ -1433,7 +1450,7 @@ async function saveEditProduct(event: FormEvent<HTMLFormElement>) {
         {/* CỬA HÀNG */}
         {tab === 'Cửa hàng' && (
           <section className="page-content">
-            <div className="panel">
+            <div className="panel card">
               <div className="panel-head">
                 <div><h2>Cửa hàng</h2><p className="muted">Tạo giao dịch bán hàng thủ công và theo dõi công nợ khách hàng.</p></div>
                 <button type="button" className="button" onClick={() => { setStoreCustomerName(''); setStoreIsDebt(false); setShowStoreCart(true) }}>🛒 Giỏ hàng ({storeCart.length})</button>
@@ -1448,7 +1465,7 @@ async function saveEditProduct(event: FormEvent<HTMLFormElement>) {
                 </tbody></table></div>
               )}
             </div>
-            <div className="panel">
+            <div className="panel card">
               <div className="panel-head"><div><h2>Lịch sử cửa hàng</h2><p className="muted">Các giao dịch bán hàng, ghi nợ và trả nợ.</p></div></div>
               {storeHistory.length === 0 ? <EmptyState title="Chưa có giao dịch" description="Lịch sử thao tác tại cửa hàng sẽ hiển thị ở đây." /> : (
                 <div className="table-wrap"><table><thead><tr><th>Thời gian</th><th>Khách hàng</th><th>Mặt hàng</th><th>Số lượng</th><th>Đơn giá</th><th>Số tiền (USD)</th><th>Thao tác</th></tr></thead><tbody>
@@ -1462,7 +1479,7 @@ async function saveEditProduct(event: FormEvent<HTMLFormElement>) {
         {/* LỊCH SỬ */}
         {tab === 'Lịch sử' && (
           <section className="page-content">
-            <div className="panel">
+            <div className="panel card">
               <div className="panel-head history-heading">
                 <div>
                   <h2>Lịch sử kho hàng</h2>
@@ -2048,7 +2065,7 @@ function Metric({
   detail: string
 }) {
   return (
-    <div className="metric-card">
+    <div className="metric-card card">
       <div className="metric-card-top">
         <span className="metric-icon">{icon}</span>
         <span className="metric-title">{title}</span>

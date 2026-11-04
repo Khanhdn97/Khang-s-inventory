@@ -82,7 +82,6 @@ h3 {
 p {
   line-height: 1.6;
 }
-
 .app-shell {
   display: flex;
   min-height: 100vh;
@@ -394,6 +393,7 @@ p {
   overflow-wrap: anywhere;
   font-weight: 750;
   letter-spacing: -0.8px;
+  font-size: 1.5rem;
 }
 
 .metric-detail {
@@ -487,7 +487,7 @@ p {
 
 .warehouse-layout {
   display: grid;
-  grid-template-columns:1fr 3fr;
+  grid-template-columns:1fr 2fr;
   align-items: start;
   gap: 18px;
 }
@@ -750,7 +750,6 @@ tbody tr:hover {
 }
 
 .empty-state strong {
-  font-size: 13px;
   font-weight: 700;
 }
 
@@ -758,7 +757,6 @@ tbody tr:hover {
   max-width: 310px;
   margin: 8px 0 15px;
   color: var(--muted);
-  font-size: 11px;
   line-height: 1.7;
 }
 
@@ -796,7 +794,6 @@ tbody tr:hover {
 }
 
 .field-label {
-  font-size: 12px;
   font-weight: 650;
 }
 
@@ -1541,9 +1538,8 @@ select:focus {
 }
 /* Cỡ chữ mặc định toàn ứng dụng */
 html {
-  font-size: 17px;
+  font-size: 18px;
 }
-
 body {
   font-size: 1rem;
   line-height: 1.5;
@@ -1559,7 +1555,7 @@ textarea {
 
 /* Nội dung bảng */
 table {
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 th,
@@ -1631,18 +1627,14 @@ h4 {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
-  padding: 14px 4px;
   color: var(--muted);
-  font-size: 13px;
 }
 .shop-cart-total strong { color: var(--text); font-size: 16px; }
 .shop-debt-checkbox {
   display: flex;
   align-items: center;
   gap: 9px;
-  margin: 12px 0 18px;
   color: var(--text);
-  font-size: 13px;
   font-weight: 600;
 }
 .shop-debt-checkbox input { width: 17px; height: 17px; }
