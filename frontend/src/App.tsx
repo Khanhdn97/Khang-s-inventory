@@ -90,43 +90,54 @@ function dateFormat(value: string | null | undefined) {
   return `${get('day')}/${get('month')}/${get('year')} ${get('hour')}:${get('minute')}`;
 }
 
+let activeRequestCount = 0
+let setRequestLoading: ((value: boolean) => void) | null = null
+
 async function request<T = any>(
   path: string,
   options?: RequestInit,
 ): Promise<T> {
-  const response = await fetch(`${API}${path}`, {
-    ...options,
-    headers: {
-      ...(options?.body ? { 'Content-Type': 'application/json' } : {}),
-      ...options?.headers,
-    },
-  })
+  activeRequestCount += 1
+  setRequestLoading?.(true)
 
-  if (!response.ok) {
-    let message = `Lỗi HTTP ${response.status}`
+  try {
+    const response = await fetch(`${API}${path}`, {
+      ...options,
+      headers: {
+        ...(options?.body ? { 'Content-Type': 'application/json' } : {}),
+        ...options?.headers,
+      },
+    })
 
-    try {
-      const data = await response.json()
+    if (!response.ok) {
+      let message = `Lỗi HTTP ${response.status}`
 
-      if (typeof data.detail === 'string') {
-        message = data.detail
-      } else if (Array.isArray(data.detail)) {
-        message = data.detail
-          .map((item: any) => item.msg || JSON.stringify(item))
-          .join(', ')
-      } else if (data.message) {
-        message = data.message
+      try {
+        const data = await response.json()
+
+        if (typeof data.detail === 'string') {
+          message = data.detail
+        } else if (Array.isArray(data.detail)) {
+          message = data.detail
+            .map((item: any) => item.msg || JSON.stringify(item))
+            .join(', ')
+        } else if (data.message) {
+          message = data.message
+        }
+      } catch {
+        // Giữ thông báo HTTP mặc định.
       }
-    } catch {
-      // Giữ thông báo HTTP mặc định.
+
+      throw new Error(message)
     }
 
-    throw new Error(message)
+    if (response.status === 204) return undefined as T
+
+    return (await response.json()) as T
+  } finally {
+    activeRequestCount = Math.max(0, activeRequestCount - 1)
+    setRequestLoading?.(activeRequestCount > 0)
   }
-
-  if (response.status === 204) return undefined as T
-
-  return response.json() as Promise<T>
 }
 
 /**
@@ -174,6 +185,7 @@ export default function App() {
   )
 
   const [loading, setLoading] = useState(false)
+  const [apiLoading, setApiLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
@@ -315,7 +327,16 @@ export default function App() {
     loadHistory,
     selectedWarehouseId,
   ])
+  useEffect(() => {
+    setRequestLoading = setApiLoading
+    setApiLoading(activeRequestCount > 0)
 
+    return () => {
+      if (setRequestLoading === setApiLoading) {
+        setRequestLoading = null
+      }
+    }
+  }, [])
   useEffect(() => {
     void refreshAll()
     // Tải dữ liệu ban đầu.
@@ -2047,6 +2068,14 @@ async function saveEditProduct(event: FormEvent<HTMLFormElement>) {
               </div>
             </form>
           </section>
+        </div>
+      )}
+      {apiLoading && (
+        <div className="loading-overlay" role="status" aria-live="polite">
+          <div className="loading-content">
+            <span className="loading-spinner" />
+            <span>Đang xử lý...</span>
+          </div>
         </div>
       )}
     </div>
